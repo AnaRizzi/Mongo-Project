@@ -143,5 +143,73 @@ namespace Teste_Mongo
             return listaLivros;
         }
 
+        //buscar e alterar um documento específico:
+        public async Task<Livro> BuscarEAlterarUmLivroNoBanco()
+        {
+            //cria o filtro que você precisa
+            var filtro = Builders<Livro>.Filter;
+            //cria a condição (igual (eq), maior (gte = >=), etc....)
+            var condicao = filtro.Eq(x => x.Titulo, "Cujo");
+
+            //buscar o documento:
+            var livro = await colecao.Find(condicao).FirstOrDefaultAsync();
+
+            Console.WriteLine(livro.ToJson<Livro>());
+
+            livro.Ano = "1990";
+
+            //atualizar no banco, passando a condição de busca do que sera alterado e a informação nova
+            await colecao.ReplaceOneAsync(condicao, livro);
+
+            Console.WriteLine(livro.ToJson<Livro>());
+
+            return livro;
+        }
+
+        //alterar um documento específico:
+        public async Task AlterarUmLivroNoBanco()
+        {
+            //cria o filtro que você precisa
+            var filtro = Builders<Livro>.Filter;
+            //cria a condição pra encontrar o livro
+            var condicao = filtro.Eq(x => x.Titulo, "Cujo");
+
+            //cria o filtro do tipo Update
+            var filtroDeAlteracao = Builders<Livro>.Update;
+            //passa a alteração a ser feita
+            var alteracao = filtroDeAlteracao.Set(x => x.Ano, "1995");
+
+            //atualizar o documento, passa a condição de busca e depois a alteração a ser feita:
+            var livro = await colecao.UpdateOneAsync(condicao, alteracao);
+        }
+
+        //alterar vários documentos ao mesmo tempo:
+        public async Task AlterarVariosLivrosNoBanco()
+        {
+            //cria o filtro que você precisa
+            var filtro = Builders<Livro>.Filter;
+            //cria a condição pra encontrar o livro
+            var condicao = filtro.Eq(x => x.Autor, "J K Rowling");
+
+            //cria o filtro do tipo Update
+            var filtroDeAlteracao = Builders<Livro>.Update;
+            //passa a alteração a ser feita
+            var alteracao = filtroDeAlteracao.Set(x => x.Autor, "J. K. Rowling");
+
+            //atualizar o documento, passa a condição de busca e depois a alteração a ser feita:
+            var livro = await colecao.UpdateManyAsync(condicao, alteracao);
+        }
+
+        //excluir um documento específico:
+        public async Task ExcluirUmLivroNoBanco()
+        {
+            //cria o filtro que você precisa
+            var filtro = Builders<Livro>.Filter;
+            //cria a condição pra encontrar o livro
+            var condicao = filtro.Eq(x => x.Titulo, "Cujo");
+
+            //excluir o documento, passa a condição de busca:
+            var livro = await colecao.DeleteOneAsync(condicao);
+        }
     }
 }

@@ -46,6 +46,19 @@ namespace Teste_Mongo
 
             //buscar documentos ordenando os resultados:
             var lista4 = await banco.BuscarLivrosComFiltroOrdenadoNoBanco();
+
+
+            //buscar e alterar um livro:
+            //var livroASerAlterado = await banco.BuscarEAlterarUmLivroNoBanco();
+
+            //alterar um livro:
+            //await banco.AlterarUmLivroNoBanco();
+
+            // alterar um livro:
+            //await banco.AlterarVariosLivrosNoBanco();
+
+            //excluir um livro:
+            //await banco.ExcluirUmLivroNoBanco();
         }
     }
 }
