@@ -10,7 +10,7 @@ namespace Teste_Mongo
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Bem vindo a biblioteca!");
             await MainASync(args);
             Console.WriteLine("pressione enter");
             Console.ReadLine();
@@ -33,7 +33,19 @@ namespace Teste_Mongo
                 Tema = new List<string>() { "terror", "animais" }
             };
 
-            await banco.InserirLivroNoBanco(livro);
+            //await banco.InserirLivroNoBanco(livro);
+
+            //buscar todos os documentos no banco:
+            var lista = await banco.BuscarLivrosNoBanco();
+
+            //buscar documentos específicos no banco:
+            var lista2 = await banco.BuscarLivrosComFiltroBsonNoBanco();
+
+            //buscar documentos filtrando por classe no banco:
+            var lista3 = await banco.BuscarLivrosComFiltroDeClasseNoBanco();
+
+            //buscar documentos ordenando os resultados:
+            var lista4 = await banco.BuscarLivrosComFiltroOrdenadoNoBanco();
         }
     }
 }
